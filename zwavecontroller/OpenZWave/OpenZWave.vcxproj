@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugDLL|Win32">
+      <Configuration>DebugDLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDLL|Win32">
+      <Configuration>ReleaseDLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{497F9828-DEC2-4C80-B9E0-AD066CCB587C}</ProjectGuid>
+    <RootNamespace>OpenZWave</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">$(ProjectName)d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">$(ProjectName)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">.dll</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>..\..\openzwave\cpp\src;..\..\openzwave\cpp\tinyxml;..\..\openzwave\cpp\hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\$(ProjectName).lib</OutputFile>
+      <AdditionalDependencies>setupapi.lib</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+    <PreBuildEvent>
+      <Command>"$(ProgramFiles)\TortoiseSVN\bin\subwcrev.exe" . ..\..\openzwave\cpp\build\windows\winversion.ini ..\..\openzwave\cpp\build\windows\winversion.cpp
+if %ERRORLEVEL% GTR 0 (
+echo Using Default WinVersion.cpp Version as we could not find a copy of TortoiseSVN in your Program Files 
+copy ..\..\openzwave\cpp\build\windows\winversion.tmpl ..\..\openzwave\cpp\build\windows\winversion.cpp
+)
+exit 0</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Export SVN Revision</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDLL|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;OPENZWAVE_MAKEDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\openzwave\cpp\src;..\..\openzwave\cpp\tinyxml;..\..\openzwave\cpp\hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
+      <AdditionalDependencies>setupapi.lib</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>"$(ProgramFiles)\TortoiseSVN\bin\subwcrev.exe" . ..\..\openzwave\cpp\build\windows\winversion.ini ..\..\openzwave\cpp\build\windows\winversion.cpp
+if %ERRORLEVEL% GTR 0 (
+echo Using Default WinVersion.cpp Version as we could not find a copy of TortoiseSVN in your Program Files 
+copy ..\..\openzwave\cpp\build\windows\winversion.tmpl ..\..\openzwave\cpp\build\windows\winversion.cpp
+)
+exit 0</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Export SVN Revision</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDLL|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>WIN32;_LIB;OPENZWAVE_MAKEDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\openzwave\cpp\src;..\..\openzwave\cpp\tinyxml;..\..\openzwave\cpp\hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\$(ProjectName).lib</OutputFile>
+      <AdditionalDependencies>setupapi.lib</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>Setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent />
+    <PreBuildEvent>
+      <Message>Export SVN Revision</Message>
+      <Command>"$(ProgramFiles)\TortoiseSVN\bin\subwcrev.exe" . ..\..\openzwave\cpp\build\windows\winversion.ini ..\..\openzwave\cpp\build\windows\winversion.cpp
+if %ERRORLEVEL% GTR 0 (
+echo Using Default WinVersion.cpp Version as we could not find a copy of TortoiseSVN in your Program Files 
+copy ..\..\openzwave\cpp\build\windows\winversion.tmpl ..\..\openzwave\cpp\build\windows\winversion.cpp
+)
+exit 0</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>..\..\openzwave\cpp\src;..\..\openzwave\cpp\tinyxml;..\..\openzwave\cpp\hidapi\hidapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\$(ProjectName).lib</OutputFile>
+      <AdditionalDependencies>setupapi.lib</AdditionalDependencies>
+    </Lib>
+    <PreBuildEvent>
+      <Command>"$(ProgramFiles)\TortoiseSVN\bin\subwcrev.exe" . ..\..\openzwave\cpp\build\windows\winversion.ini ..\..\openzwave\cpp\build\windows\winversion.cpp
+if %ERRORLEVEL% GTR 0 (
+echo Using Default WinVersion.cpp Version as we could not find a copy of TortoiseSVN in your Program Files 
+copy ..\..\openzwave\cpp\build\windows\winversion.tmpl ..\..\openzwave\cpp\build\windows\winversion.cpp
+)
+exit 0</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Export SVN Revision</Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\openzwave\cpp\hidapi\hidapi\hidapi.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\aes\aes.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\aes\aesopt.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\aes\aestab.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\aes\brg_endian.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\aes\brg_types.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Bitfield.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\DoorLock.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\DoorLockLogging.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\NoOperation.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SceneActivation.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Security.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\TimeParameters.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SensorAlarm.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\UserCode.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Defs.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Driver.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Group.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Manager.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Msg.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Node.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Notification.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Options.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Controller.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Event.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\HidController.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Log.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Mutex.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Ref.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Stream.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\SerialController.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Thread.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\TimeStamp.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\Wait.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\EventImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\LogImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\MutexImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\SerialControllerImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\ThreadImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\TimeStampImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\platform\windows\WaitImpl.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Scene.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\Utils.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueButton.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueRaw.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueSchedule.h" />
+    <ClInclude Include="..\..\openzwave\cpp\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\openzwave\cpp\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\Value.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueBool.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueByte.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueDecimal.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueID.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueInt.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueList.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueShort.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueStore.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\value_classes\ValueString.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Alarm.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ApplicationStatus.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Association.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\AssociationCommandConfiguration.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Basic.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\BasicWindowCovering.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Battery.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ClimateControlSchedule.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Clock.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\CommandClass.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\CommandClasses.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Configuration.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ControllerReplication.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\CRC16Encap.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\EnergyProduction.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Hail.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Indicator.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Language.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Lock.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ManufacturerSpecific.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Meter.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\MeterPulse.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\MultiCmd.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\MultiInstance.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\MultiInstanceAssociation.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\NodeNaming.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Powerlevel.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Proprietary.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Protection.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SensorBinary.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SensorMultilevel.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SwitchAll.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SwitchBinary.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SwitchMultilevel.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SwitchToggleBinary.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\SwitchToggleMultilevel.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ThermostatFanMode.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ThermostatFanState.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ThermostatMode.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ThermostatOperatingState.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\ThermostatSetpoint.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\Version.h" />
+    <ClInclude Include="..\..\openzwave\cpp\src\command_classes\WakeUp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\openzwave\cpp\hidapi\windows\hid.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\aes\aescrypt.c" />
+    <ClCompile Include="..\..\openzwave\cpp\src\aes\aeskey.c" />
+    <ClCompile Include="..\..\openzwave\cpp\src\aes\aestab.c" />
+    <ClCompile Include="..\..\openzwave\cpp\src\aes\aes_modes.c" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\DoorLock.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\DoorLockLogging.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\NoOperation.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SceneActivation.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Security.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\TimeParameters.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SensorAlarm.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\UserCode.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Driver.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Group.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Manager.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Msg.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Node.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Options.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Controller.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Event.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\FileOps.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\HidController.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Log.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Mutex.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Stream.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\SerialController.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Thread.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\TimeStamp.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\Wait.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\EventImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\FileOpsImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\LogImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\MutexImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\SerialControllerImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\ThreadImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\TimeStampImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\platform\windows\WaitImpl.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Scene.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\Utils.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueButton.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueRaw.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueSchedule.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\Value.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueBool.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueByte.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueDecimal.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueInt.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueList.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueShort.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueStore.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\value_classes\ValueString.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Alarm.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ApplicationStatus.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Association.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\AssociationCommandConfiguration.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Basic.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\BasicWindowCovering.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Battery.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ClimateControlSchedule.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Clock.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\CommandClass.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\CommandClasses.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Configuration.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ControllerReplication.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\CRC16Encap.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\EnergyProduction.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Hail.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Indicator.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Language.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Lock.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ManufacturerSpecific.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Meter.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\MeterPulse.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\MultiCmd.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\MultiInstance.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\MultiInstanceAssociation.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\NodeNaming.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Powerlevel.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Proprietary.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Protection.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SensorBinary.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SensorMultilevel.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SwitchAll.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SwitchBinary.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SwitchMultilevel.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SwitchToggleBinary.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\SwitchToggleMultilevel.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ThermostatFanMode.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ThermostatFanState.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ThermostatMode.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ThermostatOperatingState.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\ThermostatSetpoint.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\Version.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\src\command_classes\WakeUp.cpp" />
+    <ClCompile Include="..\..\openzwave\cpp\build\windows\winversion.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
