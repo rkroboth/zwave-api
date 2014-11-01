@@ -1,9 +1,9 @@
 <config>
     <api_port>8081</api_port>
-    <api_key>rusty</api_key>
-    <data_dir>C:/Users/Rusty/Documents/programming projects/securitysystem/data/openzwave</data_dir>
-    <log_dir>C:/Users/Rusty/Documents/programming projects/securitysystem/logs</log_dir>
+    <api_key></api_key>
+    <data_dir></data_dir>
+    <log_dir></log_dir>
     <logfile_prefix>zwave</logfile_prefix>
-    <zwave_manufacturer_xml_dir>C:/Users/Rusty/Documents/programming projects/securitysystem/lib/zwave_controller/openzwave/config/</zwave_manufacturer_xml_dir>
+    <zwave_manufacturer_xml_dir></zwave_manufacturer_xml_dir>
     <controller_com_port>3</controller_com_port>
 </config>
