@@ -118,23 +118,27 @@ json_spirit::Object ZWaveController::GetValueInfo(ValueID v){
 
 	switch (v.GetType()){
 	case ValueID::ValueType::ValueType_Bool:
-		prop_info.push_back(json_spirit::Pair("type", "bool (0/1, true/false, on/off)"));
+		prop_info.push_back(json_spirit::Pair("type", "bool"));
+		prop_info.push_back(json_spirit::Pair("type_help", "0/1, true/false, on/off"));
 		Manager::Get()->GetValueAsBool(v, &bool_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", bool_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Byte:
-		prop_info.push_back(json_spirit::Pair("type", "byte (number from 0 to 255)"));
+		prop_info.push_back(json_spirit::Pair("type", "byte"));
+		prop_info.push_back(json_spirit::Pair("type_help", "number from 0 to 255"));
 		Manager::Get()->GetValueAsByte(v, &int8_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", int8_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Short:
-		prop_info.push_back(json_spirit::Pair("type", "short (number from 0 to 65,535)"));
+		prop_info.push_back(json_spirit::Pair("type", "short"));
+		prop_info.push_back(json_spirit::Pair("type_help", "number from 0 to 65,535"));
 		Manager::Get()->GetValueAsShort(v, &int16_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", int16_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Decimal:
 	case ValueID::ValueType::ValueType_Int:
-		prop_info.push_back(json_spirit::Pair("type", "int32 (number from 0 to 4,294,967,295)"));
+		prop_info.push_back(json_spirit::Pair("type", "int32"));
+		prop_info.push_back(json_spirit::Pair("type_help", "number from 0 to 4,294,967,295"));
 		Manager::Get()->GetValueAsInt(v, &int32_prop_value);
 
 		// do all this checking below because of a bug in openzwave: https://code.google.com/p/open-zwave/issues/detail?id=382
@@ -151,31 +155,37 @@ json_spirit::Object ZWaveController::GetValueInfo(ValueID v){
 		break;
 	case ValueID::ValueType::ValueType_List:
 		prop_info.push_back(json_spirit::Pair("type", "list"));
+		prop_info.push_back(json_spirit::Pair("type_help", "list"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Schedule:
 		prop_info.push_back(json_spirit::Pair("type", "schedule"));
+		prop_info.push_back(json_spirit::Pair("type_help", "schedule"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_String:
 		prop_info.push_back(json_spirit::Pair("type", "string"));
+		prop_info.push_back(json_spirit::Pair("type_help", "string"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Button:
-		prop_info.push_back(json_spirit::Pair("type", "button (string)"));
+		prop_info.push_back(json_spirit::Pair("type", "button"));
+		prop_info.push_back(json_spirit::Pair("type_help", "button (string)"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
 		break;
 	case ValueID::ValueType::ValueType_Raw:
-		prop_info.push_back(json_spirit::Pair("type", "raw (string)"));
+		prop_info.push_back(json_spirit::Pair("type", "raw"));
+		prop_info.push_back(json_spirit::Pair("type_help", "raw (string)"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
 		break;
 	default:
 		prop_info.push_back(json_spirit::Pair("type", "unknown"));
+		prop_info.push_back(json_spirit::Pair("type_help", "unknown"));
 		prop_info.push_back(json_spirit::Pair("value", ""));
 		break;
 	}
@@ -223,10 +233,10 @@ json_spirit::Object ZWaveController::GetValueInfo(ValueID v){
 }
 
 
-json_spirit::Object ZWaveController::GetValueChangesSince(uint64 since_milliseconds){
+json_spirit::Object ZWaveController::GetValueChangesSince(uint64 since_milliseconds, uint64 only_node_id){
 
 	if (since_milliseconds < ZWaveController::expire_seconds){
-		return ZWaveController::GetAllValues();
+		return ZWaveController::GetAllValues(only_node_id);
 	}
 
 	json_spirit::Object rtn;
@@ -245,12 +255,21 @@ json_spirit::Object ZWaveController::GetValueChangesSince(uint64 since_milliseco
 			for (list<NodeInfo*>::iterator it = g_nodes.begin(); it != g_nodes.end(); ++it)
 			{
 				NodeInfo* nodeInfo = *it;
+
+				if (only_node_id != 0 && only_node_id != (uint64)nodeInfo->m_nodeId){
+					continue;
+				}
+
+
 				for (list<ValueID>::iterator it2 = nodeInfo->m_values.begin(); it2 != nodeInfo->m_values.end(); ++it2)
 				{
 					ValueID v = *it2;
 					uint64 vid = v.GetId();
+
 					if (vid == vc.value_id){
-						values.push_back(ZWaveController::GetValueInfo(v));
+						if (ZWaveController::ExposeValue(v)){
+							values.push_back(ZWaveController::GetValueInfo(v));
+						}
 					}
 				}
 			}
@@ -268,7 +287,7 @@ json_spirit::Object ZWaveController::GetValueChangesSince(uint64 since_milliseco
 
 
 
-json_spirit::Object ZWaveController::GetAllValues(){
+json_spirit::Object ZWaveController::GetAllValues(uint64 only_node_id){
 	
 	json_spirit::Object rtn;
 
@@ -283,6 +302,10 @@ json_spirit::Object ZWaveController::GetAllValues(){
 	for (list<NodeInfo*>::iterator it = g_nodes.begin(); it != g_nodes.end(); ++it)
 	{
 		NodeInfo* nodeInfo = *it;
+
+		if (only_node_id != 0 && only_node_id != (uint64)nodeInfo->m_nodeId){
+			continue;
+		}
 
 		for (list<ValueID>::iterator it2 = nodeInfo->m_values.begin(); it2 != nodeInfo->m_values.end(); ++it2)
 		{
@@ -513,6 +536,8 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 
 bool ZWaveController::ExposeValue(ValueID v){
 
+	return true;
+
 	switch (v.GetGenre()){
 	case ValueID::ValueGenre::ValueGenre_Basic:
 	case ValueID::ValueGenre::ValueGenre_User:
@@ -533,6 +558,7 @@ bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_
 
 	bool success = false;
 	bool found = false;
+	error_msg = "";
 
 	for (list<NodeInfo*>::iterator it = g_nodes.begin(); it != g_nodes.end(); ++it)
 	{
@@ -545,22 +571,22 @@ bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_
 			int node_id = v.GetNodeId();
 			if (vid == value_id){
 
+				found = true;
+
 				// make sure it's not a read only prop
 				if (Manager::Get()->IsValueReadOnly(v)){
-					found = true;
-					success = false;
 					error_msg = "This is a read only property";
 				}
 
 				else {
 
-
 					bool bool_new_value;
 					uint8 int8_new_value;
-					int32 int32_new_value;
 					int16 int16_new_value;
+					int32 int32_new_value;
 
 					switch (v.GetType()){
+
 					case ValueID::ValueType::ValueType_Bool:
 						if (
 							new_value == ""
@@ -574,69 +600,78 @@ bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_
 						else {
 							bool_new_value = true;
 						}
-						found = true;
 						success = Manager::Get()->SetValue(v, bool_new_value);
+						if (!success){
+							error_msg = "Call to ZWave library SetValue failed";
+						}
 						break;
 
 					case ValueID::ValueType::ValueType_Byte:
 						try {
-							int8_new_value = boost::lexical_cast<uint8>(new_value);
+							int8_new_value = (uint8)(boost::lexical_cast<int>(new_value));
+							success = Manager::Get()->SetValue(v, int8_new_value);
+							if (!success){
+								error_msg = "Call to ZWave library SetValue failed";
+							}
 						}
 						catch (boost::bad_lexical_cast const&) {
 							error_msg = "Type required is byte (number from 0 to 255); could not convert new_value to byte";
 						}
-						found = true;
-						success = Manager::Get()->SetValue(v, int8_new_value);
 						break;
 
 					case ValueID::ValueType::ValueType_Short:
 						try {
 							int16_new_value = boost::lexical_cast<int16>(new_value);
+							success = Manager::Get()->SetValue(v, int16_new_value);
+							if (!success){
+								error_msg = "Call to ZWave library SetValue failed";
+							}
 						}
 						catch (boost::bad_lexical_cast const&) {
 							error_msg = "Type required is short (number from 0 to 65,535); could not convert new_value to short";
 						}
-						found = true;
-						success = Manager::Get()->SetValue(v, int16_new_value);
 						break;
 
 					case ValueID::ValueType::ValueType_Decimal:
 					case ValueID::ValueType::ValueType_Int:
 						try {
 							int32_new_value = boost::lexical_cast<int32>(new_value);
+							success = Manager::Get()->SetValue(v, int32_new_value);
+							if (!success){
+								error_msg = "Call to ZWave library SetValue failed";
+							}
 						}
 						catch (boost::bad_lexical_cast const&) {
 							error_msg = "Type required is int32 (number from 0 to 4,294,967,295); could not convert new_value to int32";
 						}
-						found = true;
-						success = Manager::Get()->SetValue(v, int32_new_value);
 						break;
 
 					case ValueID::ValueType::ValueType_List:
 						error_msg = "No support for setting 'list' value types yet";
-						found = true;
-						success = false;
+						break;
 
 					case ValueID::ValueType::ValueType_Schedule:
 						error_msg = "No support for setting 'schedule' value types yet";
-						found = true;
-						return false;
+						break;
 
 					case ValueID::ValueType::ValueType_String:
 					case ValueID::ValueType::ValueType_Button:
 					case ValueID::ValueType::ValueType_Raw:
-						found = true;
 						success = Manager::Get()->SetValue(v, new_value);
+						if (!success){
+							error_msg = "Call to ZWave library SetValue failed";
+						}
+
 						break;
 
 					default:
 						error_msg = "Value is an unknown type, could not set";
-						found = true;
-						success = false;
-						break;
+
 					}
 
 				}
+
+				break;
 			}
 		}
 

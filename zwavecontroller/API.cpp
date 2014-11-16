@@ -14,8 +14,6 @@ bool API::handleAll(const char * method, CivetServer *server, struct mg_connecti
 	string url(req_info->uri);
 	string remote_addr(req_info->remote_addr);
 
-	Logger::LogNotice("API request from " + remote_addr + " for url " + url);
-
 	json_spirit::Object response;
 
 	if (!CivetServer::getParam(conn, "api_key", s) || s != API::config.GetConfig("api_key")) {
@@ -48,6 +46,8 @@ bool API::handleAll(const char * method, CivetServer *server, struct mg_connecti
 
 		string s_since;
 		uint64 since = 0;
+		string s_node_id;
+		uint64 node_id = 0;
 		if (CivetServer::getParam(conn, "since", s_since)) {
 			try {
 				since = boost::lexical_cast<uint64>(s_since);
@@ -60,15 +60,29 @@ bool API::handleAll(const char * method, CivetServer *server, struct mg_connecti
 				return true;
 			}
 		}
+		if (CivetServer::getParam(conn, "node_id", s_node_id)) {
+			try {
+				node_id = boost::lexical_cast<uint64>(s_node_id);
+			}
+			catch (boost::bad_lexical_cast const&) {
+				response.push_back(json_spirit::Pair("success", false));
+				response.push_back(json_spirit::Pair("error_msg", "Invalid 'since' parameter."));
+				mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
+				mg_printf(conn, write(response).c_str());
+				return true;
+			}
+		}
 
 		response.push_back(json_spirit::Pair("success", true));
-		response.push_back(json_spirit::Pair("data", ZWaveController::GetValueChangesSince(since)));
+		response.push_back(json_spirit::Pair("data", ZWaveController::GetValueChangesSince(since, node_id)));
 		mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
 		mg_printf(conn, write(response).c_str());
 		return true;
 	}
 
 	if (url == "/api/set_value"){
+
+		Logger::LogNotice("API request from " + remote_addr + " for url " + url);
 
 		string s_value_id;
 		uint64 value_id = 0;
