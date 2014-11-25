@@ -37,6 +37,7 @@ public:
 	static json_spirit::Object GetAllValues(uint64 node_id);
 	static json_spirit::Object GetValueInfo(ValueID v);
 	static bool SetValue(uint64 value_id, string new_value, string &error_msg);
+	static bool ZWaveController::RefreshValue(uint64 value_id, string &error_msg);
 	static bool ExposeValue(ValueID v);
 };
 

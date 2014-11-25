@@ -411,6 +411,9 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 
 					// first remove this value from the change queue if it's already in there
 					if (ZWaveController::ExposeValue(v)){
+						string new_value;
+						Manager::Get()->GetValueAsString(v, &new_value);
+
 						uint64 vid = v.GetId();
 						ValueChange::remove_change(vid);
 						ValueChange::add_change(vid);
@@ -551,6 +554,45 @@ bool ZWaveController::ExposeValue(ValueID v){
 	}
 
 }
+
+
+bool ZWaveController::RefreshValue(uint64 value_id, string &error_msg){
+
+	EnterCriticalSection(&g_criticalSection);
+
+	bool success = false;
+	bool found = false;
+	error_msg = "";
+
+	for (list<NodeInfo*>::iterator it = g_nodes.begin(); it != g_nodes.end(); ++it)
+	{
+		NodeInfo* nodeInfo = *it;
+
+		for (list<ValueID>::iterator it2 = nodeInfo->m_values.begin(); it2 != nodeInfo->m_values.end(); ++it2)
+		{
+			ValueID v = *it2;
+			uint64 vid = v.GetId();
+			int node_id = v.GetNodeId();
+			if (vid == value_id){
+				found = true;
+				success = Manager::Get()->RefreshValue(v);
+				if (!success){
+					error_msg = "Call to ZWave library RefreshValue failed (returned false)";
+				}
+				break;
+			}
+		}
+	}
+	LeaveCriticalSection(&g_criticalSection);
+
+	if (!found){
+		error_msg = "Value id " + to_string(value_id) + " could not be found";
+	}
+
+	return success;
+}
+
+
 
 bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_msg){
 
