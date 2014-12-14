@@ -11,7 +11,7 @@ public:
 
 	static Config LoadConfig(std::string path_to_config_file);
 
-	string Config::GetConfig(string identifier);
+	string GetConfig(string identifier);
 };
 
 #endif
