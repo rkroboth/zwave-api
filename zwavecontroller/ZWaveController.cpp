@@ -154,11 +154,23 @@ json_spirit::Object ZWaveController::GetValueInfo(ValueID v){
 		}
 		break;
 	case ValueID::ValueType::ValueType_List:
+	{
 		prop_info.push_back(json_spirit::Pair("type", "list"));
 		prop_info.push_back(json_spirit::Pair("type_help", "list"));
 		Manager::Get()->GetValueAsString(v, &str_prop_value);
 		prop_info.push_back(json_spirit::Pair("value", str_prop_value));
+
+		std::vector<string> list_options;
+		Manager::Get()->GetValueListItems(v, &list_options);
+		std::vector<json_spirit::Value> values;
+		for (std::vector<string>::iterator i = list_options.begin(); i != list_options.end(); ++i){
+			string opt = *i;
+			values.push_back(opt);
+		}
+		prop_info.push_back(json_spirit::Pair("list_options", values));
+
 		break;
+	}
 	case ValueID::ValueType::ValueType_Schedule:
 		prop_info.push_back(json_spirit::Pair("type", "schedule"));
 		prop_info.push_back(json_spirit::Pair("type_help", "schedule"));
@@ -688,14 +700,11 @@ bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_
 						}
 						break;
 
-					case ValueID::ValueType::ValueType_List:
-						error_msg = "No support for setting 'list' value types yet";
-						break;
-
 					case ValueID::ValueType::ValueType_Schedule:
 						error_msg = "No support for setting 'schedule' value types yet";
 						break;
 
+					case ValueID::ValueType::ValueType_List:
 					case ValueID::ValueType::ValueType_String:
 					case ValueID::ValueType::ValueType_Button:
 					case ValueID::ValueType::ValueType_Raw:
@@ -703,7 +712,6 @@ bool ZWaveController::SetValue(uint64 value_id, string new_value, string &error_
 						if (!success){
 							error_msg = "Call to ZWave library SetValue failed";
 						}
-
 						break;
 
 					default:

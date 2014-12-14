@@ -10,8 +10,8 @@ public:
 	static std::string trim(string s, string replaceChars);
 	static std::string GetProgramExecutableDir();
 	static uint64 GetTimeMilliseconds();
-	static bool Utils::IsValidDirectory(string dir);
-	static bool Utils::IsValidFile(string filepath);
+	static bool IsValidDirectory(string dir);
+	static bool IsValidFile(string filepath);
 };
 
 #endif
