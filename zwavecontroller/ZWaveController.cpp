@@ -29,6 +29,16 @@ void ZWaveController::start(string command_line){
 
 }
 
+bool ZWaveController::HealNetwork(string &error_msg){
+	if (ZWaveController::homeId == 0){
+		error_msg = "Controller is not yet ready.";
+		return false;
+	}
+	Manager::Get()->HealNetwork(ZWaveController::homeId, false);
+	Logger::LogNotice("Issued heal network command");
+	return true;
+}
+
 void ZWaveController::Initialize(Config &config){
 
 	ZWaveController::homeId = 0;
@@ -77,6 +87,42 @@ void ZWaveController::stop(){
 	Manager::Destroy();
 	Options::Destroy();
 	DeleteCriticalSection(&g_criticalSection);
+}
+
+
+json_spirit::Object ZWaveController::GetValue(uint64 value_id){
+
+	EnterCriticalSection(&g_criticalSection);
+
+	json_spirit::Object rtn;
+
+	bool found = false;
+	for (list<NodeInfo*>::iterator it = g_nodes.begin(); it != g_nodes.end(); ++it)
+	{
+		NodeInfo* nodeInfo = *it;
+
+		for (list<ValueID>::iterator it2 = nodeInfo->m_values.begin(); it2 != nodeInfo->m_values.end(); ++it2)
+		{
+			ValueID v = *it2;
+			uint64 vid = v.GetId();
+
+			if (vid == value_id && ZWaveController::ExposeValue(v)){
+				rtn.push_back(json_spirit::Pair("value", ZWaveController::GetValueInfo(v)));
+				found = true;
+				break;
+			}
+		}
+
+		if (found){
+			break;
+		}
+
+	}
+
+	LeaveCriticalSection(&g_criticalSection);
+
+	return rtn;
+
 }
 
 json_spirit::Object ZWaveController::GetValueInfo(ValueID v){
@@ -278,10 +324,8 @@ json_spirit::Object ZWaveController::GetValueChangesSince(uint64 since_milliseco
 					ValueID v = *it2;
 					uint64 vid = v.GetId();
 
-					if (vid == vc.value_id){
-						if (ZWaveController::ExposeValue(v)){
-							values.push_back(ZWaveController::GetValueInfo(v));
-						}
+					if (vid == vc.value_id && ZWaveController::ExposeValue(v)){
+						values.push_back(ZWaveController::GetValueInfo(v));
 					}
 				}
 			}
@@ -337,6 +381,7 @@ json_spirit::Object ZWaveController::GetAllValues(uint64 only_node_id){
 }
 
 
+
 NodeInfo* ZWaveController::GetNodeInfo(Notification const* _notification) {
 	uint32 const homeId = _notification->GetHomeId();
 	uint8 const nodeId = _notification->GetNodeId();
@@ -367,8 +412,11 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 				// Add the new value to our list
 				nodeInfo->m_values.push_back(_notification->GetValueID());
 
+				ValueID v = _notification->GetValueID();
+
+				Logger::LogNotice("added value id " + to_string(v.GetId())  + " to node " + to_string(v.GetNodeId()) );
+
 				if (!ZWaveController::init_failed && ZWaveController::initial_node_queries_complete){
-					ValueID v = _notification->GetValueID();
 					if (ZWaveController::ExposeValue(v)){
 						uint64 vid = v.GetId();
 						ValueChange::add_change(vid);
@@ -438,13 +486,13 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 
 		case Notification::Type_Group:
 		{
-		// One of the node's association groups has changed
-		if (NodeInfo* nodeInfo = GetNodeInfo(_notification))
-		{
-			nodeInfo = nodeInfo;		// placeholder for real action
-		}
-		break;
-		}
+			// One of the node's association groups has changed
+			if (NodeInfo* nodeInfo = GetNodeInfo(_notification))
+			{
+				nodeInfo = nodeInfo;		// placeholder for real action
+			}
+			break;
+			}
 
 		case Notification::Type_NodeAdded:
 		{
@@ -472,6 +520,7 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 				if ((nodeInfo->m_homeId == homeId) && (nodeInfo->m_nodeId == nodeId))
 				{
 					g_nodes.erase(it);
+					Logger::LogNotice("node " + to_string(nodeInfo->m_nodeId) + " removed");
 					delete nodeInfo;
 					break;
 				}
@@ -486,10 +535,10 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 			if (NodeInfo* nodeInfo = GetNodeInfo(_notification))
 			{
 				if (nodeInfo->m_nodeId == 5 || nodeInfo->m_nodeId == 6){
-					nodeInfo = nodeInfo;		// placeholder for real action
+					Logger::LogNotice("node event received from node id " + to_string(nodeInfo->m_nodeId));
 				}
 				else {
-					nodeInfo = nodeInfo;		// placeholder for real action
+					Logger::LogNotice("node event received from node id " + to_string(nodeInfo->m_nodeId));
 				}
 			}
 			break;
@@ -536,12 +585,18 @@ void ZWaveController::OnNotification(Notification const* _notification, void* _c
 			break;
 		}
 
+		case Notification::Type_NodeQueriesComplete:
+		{
+			Logger::LogNotice("node " + to_string(_notification->GetNodeId()) + " queries complete");
+			break;
+		}
+
 		case Notification::Type_DriverReset:
 		case Notification::Type_NodeNaming:
 		case Notification::Type_NodeProtocolInfo:
-		case Notification::Type_NodeQueriesComplete:
 		default:
 		{
+//			Logger::LogNotice("node " + to_string(_notification->GetNodeId()) + "");
 		}
 
 	} // end of switch

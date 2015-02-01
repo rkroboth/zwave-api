@@ -31,11 +31,13 @@ public:
 
 	static Config config;
 	static void Initialize(Config &config);
+	static bool HealNetwork(string &error_msg);
 	static NodeInfo* GetNodeInfo(Notification const* _notification);
 	static void OnNotification(Notification const* _notification, void* _context);
 	static json_spirit::Object GetValueChangesSince(uint64 since, uint64 node_id);
 	static json_spirit::Object GetAllValues(uint64 node_id);
 	static json_spirit::Object GetValueInfo(ValueID v);
+	static json_spirit::Object ZWaveController::GetValue(uint64 value_id);
 	static bool SetValue(uint64 value_id, string new_value, string &error_msg);
 	static bool RefreshValue(uint64 value_id, string &error_msg);
 	static bool ExposeValue(ValueID v);

@@ -33,6 +33,21 @@ bool API::handleAll(const char * method, CivetServer *server, struct mg_connecti
 		return true;
 	}
 
+	if (url == "/api/heal_network"){
+		string err_message;
+		bool success = ZWaveController::HealNetwork(err_message);
+		if (!success){
+			response.push_back(json_spirit::Pair("success", false));
+			response.push_back(json_spirit::Pair("error_msg", err_message));
+		}
+		else {
+			response.push_back(json_spirit::Pair("success", true));
+		}
+		mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
+		mg_printf(conn, write(response).c_str());
+		return true;
+	}
+
 	if (!ZWaveController::initial_node_queries_complete)
 	{
 		response.push_back(json_spirit::Pair("success", false));
@@ -164,6 +179,40 @@ bool API::handleAll(const char * method, CivetServer *server, struct mg_connecti
 		else {
 			response.push_back(json_spirit::Pair("success", true));
 		}
+		mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
+		mg_printf(conn, write(response).c_str());
+		return true;
+	}
+
+	if (url == "/api/get_value"){
+
+		Logger::LogNotice("API request from " + remote_addr + " for url " + url);
+
+		string s_value_id;
+		uint64 value_id = 0;
+		if (CivetServer::getParam(conn, "value_id", s_value_id)) {
+			try {
+				value_id = boost::lexical_cast<uint64>(s_value_id);
+			}
+			catch (boost::bad_lexical_cast const&) {
+				response.push_back(json_spirit::Pair("success", false));
+				response.push_back(json_spirit::Pair("error_msg", "Invalid 'value_id' parameter."));
+				mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
+				mg_printf(conn, write(response).c_str());
+				return true;
+			}
+		}
+		else {
+			response.push_back(json_spirit::Pair("success", false));
+			response.push_back(json_spirit::Pair("error_msg", "Missing 'value_id' parameter."));
+			mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
+			mg_printf(conn, write(response).c_str());
+			return true;
+		}
+
+		string err_message;
+		response.push_back(json_spirit::Pair("success", true));
+		response.push_back(json_spirit::Pair("data", ZWaveController::GetValue(value_id)));
 		mg_printf(conn, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
 		mg_printf(conn, write(response).c_str());
 		return true;
